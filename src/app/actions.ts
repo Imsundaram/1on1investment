@@ -19,7 +19,7 @@ async function getJsonDb() {
         return JSON.parse(data);
     } catch (error) {
         console.error("Error reading JSON DB:", error);
-        return { properties: [], team: [], socials: {} };
+        return { properties: [], team: [], socials: {}, inquiries: [] };
     }
 }
 
@@ -39,22 +39,24 @@ const USE_MONGO = !!process.env.MONGODB_URI;
 
 export async function getProperties() {
     if (USE_MONGO) {
-        await dbConnect();
-        const count = await Property.countDocuments();
-        if (count === 0) {
-            const jsonData = await getJsonDb();
-            if (jsonData.properties && jsonData.properties.length > 0) {
-                // Ensure unique IDs if possible or rely on standard mongo _id
-                // We use 'id' field for our logic, so allow duplicates in mongo _id but specific id field unique
-                try {
-                    await Property.insertMany(jsonData.properties);
-                } catch (e) {
-                    console.error("Seeding error", e);
+        try {
+            await dbConnect();
+            const count = await Property.countDocuments();
+            if (count === 0) {
+                const jsonData = await getJsonDb();
+                if (jsonData.properties && jsonData.properties.length > 0) {
+                    try {
+                        await Property.insertMany(jsonData.properties);
+                    } catch (e) {
+                        console.error("Seeding error", e);
+                    }
                 }
             }
+            const properties = await Property.find({}).sort({ createdAt: -1 }).lean();
+            return properties.map((p: any) => ({ ...p, _id: p._id.toString() }));
+        } catch (error) {
+            console.error("MongoDB error (getProperties), falling back to JSON:", error);
         }
-        const properties = await Property.find({}).sort({ createdAt: -1 }).lean();
-        return properties.map((p: any) => ({ ...p, _id: p._id.toString() }));
     }
 
     const db = await getJsonDb();
@@ -63,9 +65,13 @@ export async function getProperties() {
 
 export async function getProperty(id: number) {
     if (USE_MONGO) {
-        await dbConnect();
-        const p = await Property.findOne({ id }).lean();
-        return p ? { ...p, _id: (p as any)._id.toString() } : null;
+        try {
+            await dbConnect();
+            const p = await Property.findOne({ id }).lean();
+            return p ? { ...p, _id: (p as any)._id.toString() } : null;
+        } catch (error) {
+            console.error("MongoDB error (getProperty), falling back to JSON:", error);
+        }
     }
 
     const db = await getJsonDb();
@@ -89,13 +95,21 @@ export async function addProperty(formData: FormData) {
     };
 
     if (USE_MONGO) {
-        await dbConnect();
-        await Property.create(data);
-    } else {
-        const db = await getJsonDb();
-        db.properties.push(data);
-        await saveJsonDb(db);
+        try {
+            await dbConnect();
+            await Property.create(data);
+            revalidatePath("/");
+            revalidatePath("/properties");
+            revalidatePath("/admin");
+            return { success: true };
+        } catch (error) {
+            console.error("MongoDB error (addProperty):", error);
+        }
     }
+
+    const db = await getJsonDb();
+    db.properties.push(data);
+    await saveJsonDb(db);
 
     revalidatePath("/");
     revalidatePath("/properties");
@@ -120,16 +134,25 @@ export async function updateProperty(id: number, formData: FormData) {
     if (image) data.image = image;
 
     if (USE_MONGO) {
-        await dbConnect();
-        await Property.findOneAndUpdate({ id }, data);
-    } else {
-        const db = await getJsonDb();
-        const index = db.properties.findIndex((p: any) => p.id === id);
-        if (index !== -1) {
-            db.properties[index] = { ...db.properties[index], ...data };
-            if (image) db.properties[index].image = image;
-            await saveJsonDb(db);
+        try {
+            await dbConnect();
+            await Property.findOneAndUpdate({ id }, data);
+            revalidatePath("/");
+            revalidatePath("/properties");
+            revalidatePath(`/properties/${id}`);
+            revalidatePath("/admin");
+            return { success: true };
+        } catch (error) {
+            console.error("MongoDB error (updateProperty):", error);
         }
+    }
+
+    const db = await getJsonDb();
+    const index = db.properties.findIndex((p: any) => p.id === id);
+    if (index !== -1) {
+        db.properties[index] = { ...db.properties[index], ...data };
+        if (image) db.properties[index].image = image;
+        await saveJsonDb(db);
     }
 
     revalidatePath("/");
@@ -141,13 +164,21 @@ export async function updateProperty(id: number, formData: FormData) {
 
 export async function deleteProperty(id: number) {
     if (USE_MONGO) {
-        await dbConnect();
-        await Property.findOneAndDelete({ id });
-    } else {
-        const db = await getJsonDb();
-        db.properties = db.properties.filter((p: any) => p.id !== id);
-        await saveJsonDb(db);
+        try {
+            await dbConnect();
+            await Property.findOneAndDelete({ id });
+            revalidatePath("/");
+            revalidatePath("/properties");
+            revalidatePath("/admin");
+            return { success: true };
+        } catch (error) {
+            console.error("MongoDB error (deleteProperty):", error);
+        }
     }
+
+    const db = await getJsonDb();
+    db.properties = db.properties.filter((p: any) => p.id !== id);
+    await saveJsonDb(db);
 
     revalidatePath("/");
     revalidatePath("/properties");
@@ -159,20 +190,24 @@ export async function deleteProperty(id: number) {
 
 export async function getTeam() {
     if (USE_MONGO) {
-        await dbConnect();
-        const count = await TeamMember.countDocuments();
-        if (count === 0) {
-            const jsonData = await getJsonDb();
-            if (jsonData.team && jsonData.team.length > 0) {
-                try {
-                    await TeamMember.insertMany(jsonData.team);
-                } catch (e) {
-                    console.error("Seeding team error", e);
+        try {
+            await dbConnect();
+            const count = await TeamMember.countDocuments();
+            if (count === 0) {
+                const jsonData = await getJsonDb();
+                if (jsonData.team && jsonData.team.length > 0) {
+                    try {
+                        await TeamMember.insertMany(jsonData.team);
+                    } catch (e) {
+                        console.error("Seeding team error", e);
+                    }
                 }
             }
+            const team = await TeamMember.find({}).sort({ createdAt: 1 }).lean();
+            return team.map((t: any) => ({ ...t, _id: t._id.toString() }));
+        } catch (error) {
+            console.error("MongoDB error (getTeam), falling back to JSON:", error);
         }
-        const team = await TeamMember.find({}).sort({ createdAt: 1 }).lean();
-        return team.map((t: any) => ({ ...t, _id: t._id.toString() }));
     }
 
     const db = await getJsonDb();
@@ -191,18 +226,23 @@ export async function addTeamMember(formData: FormData) {
     };
 
     if (USE_MONGO) {
-        await dbConnect();
-        await TeamMember.create(data);
-    } else {
-        const db = await getJsonDb();
-        if (!db.team) db.team = [];
-        db.team.push(data);
-        await saveJsonDb(db);
+        try {
+            await dbConnect();
+            await TeamMember.create(data);
+            revalidatePath("/team");
+            revalidatePath("/admin");
+            return { success: true };
+        } catch (error) {
+            console.error("MongoDB error (addTeamMember):", error);
+        }
     }
 
+    const db = await getJsonDb();
+    if (!db.team) db.team = [];
+    db.team.push(data);
+    await saveJsonDb(db);
+
     revalidatePath("/team");
-    revalidatePath("/about");
-    revalidatePath("/");
     revalidatePath("/admin");
     return { success: true };
 }
@@ -219,36 +259,48 @@ export async function updateTeamMember(id: number, formData: FormData) {
     if (image) data.image = image;
 
     if (USE_MONGO) {
-        await dbConnect();
-        await TeamMember.findOneAndUpdate({ id }, data);
-    } else {
-        const db = await getJsonDb();
-        const index = db.team.findIndex((m: any) => m.id === id);
-        if (index !== -1) {
-            db.team[index] = { ...db.team[index], ...data };
-            if (image) db.team[index].image = image;
-            await saveJsonDb(db);
+        try {
+            await dbConnect();
+            await TeamMember.findOneAndUpdate({ id }, data);
+            revalidatePath("/team");
+            revalidatePath("/admin");
+            return { success: true };
+        } catch (error) {
+            console.error("MongoDB error (updateTeamMember):", error);
         }
     }
 
+    const db = await getJsonDb();
+    const index = db.team.findIndex((m: any) => m.id === id);
+    if (index !== -1) {
+        db.team[index] = { ...db.team[index], ...data };
+        if (image) db.team[index].image = image;
+        await saveJsonDb(db);
+    }
+
     revalidatePath("/team");
-    revalidatePath("/");
     revalidatePath("/admin");
     return { success: true };
 }
 
 export async function deleteTeamMember(id: number) {
     if (USE_MONGO) {
-        await dbConnect();
-        await TeamMember.findOneAndDelete({ id });
-    } else {
-        const db = await getJsonDb();
-        db.team = db.team.filter((m: any) => m.id !== id);
-        await saveJsonDb(db);
+        try {
+            await dbConnect();
+            await TeamMember.findOneAndDelete({ id });
+            revalidatePath("/team");
+            revalidatePath("/admin");
+            return { success: true };
+        } catch (error) {
+            console.error("MongoDB error (deleteTeamMember):", error);
+        }
     }
 
+    const db = await getJsonDb();
+    db.team = db.team.filter((m: any) => m.id !== id);
+    await saveJsonDb(db);
+
     revalidatePath("/team");
-    revalidatePath("/");
     revalidatePath("/admin");
     return { success: true };
 }
@@ -257,25 +309,25 @@ export async function deleteTeamMember(id: number) {
 
 export async function getSocials() {
     if (USE_MONGO) {
-        await dbConnect();
-        let socials = await Socials.findOne({}).lean();
+        try {
+            await dbConnect();
+            let socials = await Socials.findOne({}).lean();
 
-        if (!socials) {
-            const jsonData = await getJsonDb();
-            if (jsonData.socials) {
-                // Remove _id if it exists in json to avoid collision
-                const { _id, ...socialData } = jsonData.socials;
-                try {
-                    socials = await Socials.create(socialData);
-                } catch (e) {
-                    // race condition might cause creation error if parallel requests
+            if (!socials) {
+                const jsonData = await getJsonDb();
+                if (jsonData.socials) {
+                    const { _id, ...socialData } = jsonData.socials;
+                    try {
+                        socials = await Socials.create(socialData);
+                    } catch (e) { }
+                    if (!socials) socials = await Socials.findOne({}).lean();
                 }
-                // Fetch again to be sure
-                if (!socials) socials = await Socials.findOne({}).lean();
             }
-        }
 
-        return socials ? { ...socials, _id: (socials as any)._id?.toString() } : {};
+            return socials ? { ...socials, _id: (socials as any)._id?.toString() } : {};
+        } catch (error) {
+            console.error("MongoDB error (getSocials), falling back to JSON:", error);
+        }
     }
 
     const db = await getJsonDb();
@@ -298,21 +350,23 @@ export async function updateSocials(formData: FormData) {
     });
 
     if (USE_MONGO) {
-        await dbConnect();
-        // Upsert: update if exists, insert if not
-        // We use findOneAndUpdate on empty query {} to always target the single document
-        await Socials.findOneAndUpdate({}, updates, { upsert: true, new: true, setDefaultsOnInsert: true });
-    } else {
-        const db = await getJsonDb();
-        db.socials = { ...(db.socials || {}), ...updates };
-        await saveJsonDb(db);
+        try {
+            await dbConnect();
+            await Socials.findOneAndUpdate({}, updates, { upsert: true, new: true, setDefaultsOnInsert: true });
+            revalidatePath("/", "layout");
+            revalidatePath("/admin");
+            return { success: true };
+        } catch (error) {
+            console.error("MongoDB error (updateSocials):", error);
+        }
     }
 
-    revalidatePath("/");
-    revalidatePath("/contact");
-    revalidatePath("/team");
-    revalidatePath("/admin");
+    const db = await getJsonDb();
+    db.socials = { ...(db.socials || {}), ...updates };
+    await saveJsonDb(db);
+
     revalidatePath("/", "layout");
+    revalidatePath("/admin");
     return { success: true };
 }
 
@@ -327,14 +381,21 @@ export async function submitInquiry(formData: FormData) {
     };
 
     if (USE_MONGO) {
-        await dbConnect();
-        await Inquiry.create(data);
-    } else {
-        const db = await getJsonDb();
-        if (!db.inquiries) db.inquiries = [];
-        db.inquiries.push({ ...data, id: Date.now(), status: 'new', createdAt: new Date().toISOString() });
-        await saveJsonDb(db);
+        try {
+            await dbConnect();
+            await Inquiry.create(data);
+            revalidatePath("/admin");
+            return { success: true };
+        } catch (error) {
+            console.error("MongoDB error (submitInquiry):", error);
+        }
     }
+
+    // Fallback if Mongo fails or is disabled
+    const db = await getJsonDb();
+    if (!db.inquiries) db.inquiries = [];
+    db.inquiries.push({ ...data, id: Date.now(), status: 'new', createdAt: new Date().toISOString() });
+    await saveJsonDb(db);
 
     revalidatePath("/admin");
     return { success: true };
@@ -342,9 +403,13 @@ export async function submitInquiry(formData: FormData) {
 
 export async function getInquiries() {
     if (USE_MONGO) {
-        await dbConnect();
-        const inquiries = await Inquiry.find({}).sort({ createdAt: -1 }).lean();
-        return inquiries.map((i: any) => ({ ...i, _id: (i as any)._id.toString(), createdAt: (i as any).createdAt?.toISOString() }));
+        try {
+            await dbConnect();
+            const inquiries = await Inquiry.find({}).sort({ createdAt: -1 }).lean();
+            return inquiries.map((i: any) => ({ ...i, _id: (i as any)._id.toString(), createdAt: (i as any).createdAt?.toISOString() }));
+        } catch (error) {
+            console.error("MongoDB error (getInquiries), falling back to JSON:", error);
+        }
     }
 
     const db = await getJsonDb();
@@ -353,13 +418,19 @@ export async function getInquiries() {
 
 export async function deleteInquiry(id: string) {
     if (USE_MONGO) {
-        await dbConnect();
-        await Inquiry.findByIdAndDelete(id);
-    } else {
-        const db = await getJsonDb();
-        db.inquiries = db.inquiries.filter((i: any) => (i._id || i.id).toString() !== id.toString());
-        await saveJsonDb(db);
+        try {
+            await dbConnect();
+            await Inquiry.findByIdAndDelete(id);
+            revalidatePath("/admin");
+            return { success: true };
+        } catch (error) {
+            console.error("MongoDB error (deleteInquiry):", error);
+        }
     }
+
+    const db = await getJsonDb();
+    db.inquiries = db.inquiries.filter((i: any) => (i._id || i.id).toString() !== id.toString());
+    await saveJsonDb(db);
     revalidatePath("/admin");
     return { success: true };
 }
