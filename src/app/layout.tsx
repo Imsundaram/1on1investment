@@ -36,7 +36,7 @@ export default function RootLayout({
         <Footer />
         {/* Floating WhatsApp Button */}
         <a
-          href="https://wa.me/919876543210"
+          href="https://wa.me/919266363411"
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20bd5a] text-white p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
@@ -61,7 +61,7 @@ export default function RootLayout({
 
         {/* Floating Call Button (Mobile Only) */}
         <a
-          href="tel:+919876543210"
+          href="tel:+919266363411"
           className="fixed bottom-24 right-6 z-50 bg-[var(--primary)] hover:bg-[#0f172a] text-white p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center md:hidden"
           title="Call Now"
         >

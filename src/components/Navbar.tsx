@@ -33,12 +33,12 @@ export function Navbar() {
 
     return (
         <header
-            className={`fixed top-0 w-full z-100 transition-all duration-300 ${showSolidNav ? "bg-[#0f172a] shadow-md py-2" : "bg-transparent py-4"
+            className={`fixed top-0 w-full z-[100] transition-all duration-300 ${showSolidNav ? "bg-[#0f172a] shadow-md py-2" : "bg-transparent py-3 md:py-4"
                 } text-white`}
         >
             <div className="container mx-auto px-4 md:px-8 flex justify-between items-center">
                 {/* Logo */}
-                <Link href="/" className="text-2xl font-bold tracking-wide">
+                <Link href="/" className="text-xl md:text-2xl font-bold tracking-wide">
                     <span className="text-white">1 ON 1</span>{" "}
                     <span className="text-[var(--secondary)]">INVESTMENT</span>
                 </Link>
