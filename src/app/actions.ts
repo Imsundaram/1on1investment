@@ -12,6 +12,9 @@ import Inquiry from "@/models/Inquiry";
 
 const textDbPath = path.join(process.cwd(), "src/lib/db.json");
 
+// Helper to check if we are on Vercel
+const IS_VERCEL = !!process.env.VERCEL;
+
 // Helper to read JSON DB (Fallback & Seeding)
 async function getJsonDb() {
     try {
@@ -25,11 +28,11 @@ async function getJsonDb() {
 
 // Helper to write JSON DB (Fallback)
 async function saveJsonDb(data: any) {
+    if (IS_VERCEL) return; // Never try to write to local fs on Vercel
     try {
         await fs.writeFile(textDbPath, JSON.stringify(data, null, 2), "utf-8");
     } catch (error) {
         console.error("Error saving JSON DB:", error);
-        throw new Error("Failed to save data locally");
     }
 }
 
@@ -55,7 +58,7 @@ export async function getProperties() {
             const properties = await Property.find({}).sort({ createdAt: -1 }).lean();
             return properties.map((p: any) => ({ ...p, _id: p._id.toString() }));
         } catch (error) {
-            console.error("MongoDB error (getProperties), falling back to JSON:", error);
+            console.error("MongoDB error (getProperties):", error);
         }
     }
 
@@ -70,7 +73,7 @@ export async function getProperty(id: number) {
             const p = await Property.findOne({ id }).lean();
             return p ? { ...p, _id: (p as any)._id.toString() } : null;
         } catch (error) {
-            console.error("MongoDB error (getProperty), falling back to JSON:", error);
+            console.error("MongoDB error (getProperty):", error);
         }
     }
 
@@ -104,6 +107,7 @@ export async function addProperty(formData: FormData) {
             return { success: true };
         } catch (error) {
             console.error("MongoDB error (addProperty):", error);
+            return { success: false, error: "Database error. Please check MongoDB URI." };
         }
     }
 
@@ -144,6 +148,7 @@ export async function updateProperty(id: number, formData: FormData) {
             return { success: true };
         } catch (error) {
             console.error("MongoDB error (updateProperty):", error);
+            return { success: false, error: "Database error." };
         }
     }
 
@@ -173,6 +178,7 @@ export async function deleteProperty(id: number) {
             return { success: true };
         } catch (error) {
             console.error("MongoDB error (deleteProperty):", error);
+            return { success: false, error: "Database error." };
         }
     }
 
@@ -192,21 +198,19 @@ export async function getTeam() {
     if (USE_MONGO) {
         try {
             await dbConnect();
-            const count = await TeamMember.countDocuments();
-            if (count === 0) {
+            const team = await TeamMember.find({}).sort({ createdAt: 1 }).lean();
+            if (team.length === 0) {
                 const jsonData = await getJsonDb();
                 if (jsonData.team && jsonData.team.length > 0) {
                     try {
                         await TeamMember.insertMany(jsonData.team);
-                    } catch (e) {
-                        console.error("Seeding team error", e);
-                    }
+                        return jsonData.team;
+                    } catch (e) { }
                 }
             }
-            const team = await TeamMember.find({}).sort({ createdAt: 1 }).lean();
             return team.map((t: any) => ({ ...t, _id: t._id.toString() }));
         } catch (error) {
-            console.error("MongoDB error (getTeam), falling back to JSON:", error);
+            console.error("MongoDB error (getTeam):", error);
         }
     }
 
@@ -234,6 +238,7 @@ export async function addTeamMember(formData: FormData) {
             return { success: true };
         } catch (error) {
             console.error("MongoDB error (addTeamMember):", error);
+            return { success: false, error: "Database error." };
         }
     }
 
@@ -267,6 +272,7 @@ export async function updateTeamMember(id: number, formData: FormData) {
             return { success: true };
         } catch (error) {
             console.error("MongoDB error (updateTeamMember):", error);
+            return { success: false, error: "Database error." };
         }
     }
 
@@ -293,6 +299,7 @@ export async function deleteTeamMember(id: number) {
             return { success: true };
         } catch (error) {
             console.error("MongoDB error (deleteTeamMember):", error);
+            return { success: false, error: "Database error." };
         }
     }
 
@@ -326,7 +333,7 @@ export async function getSocials() {
 
             return socials ? { ...socials, _id: (socials as any)._id?.toString() } : {};
         } catch (error) {
-            console.error("MongoDB error (getSocials), falling back to JSON:", error);
+            console.error("MongoDB error (getSocials):", error);
         }
     }
 
@@ -358,6 +365,7 @@ export async function updateSocials(formData: FormData) {
             return { success: true };
         } catch (error) {
             console.error("MongoDB error (updateSocials):", error);
+            return { success: false, error: "Database error." };
         }
     }
 
@@ -386,19 +394,27 @@ export async function submitInquiry(formData: FormData) {
             await Inquiry.create(data);
             revalidatePath("/admin");
             return { success: true };
-        } catch (error) {
+        } catch (error: any) {
             console.error("MongoDB error (submitInquiry):", error);
+            // If it's a specific auth/network error, let the user know
+            if (error.name === 'MongooseServerSelectionError') {
+                return { success: false, error: "Database connection failed. Check IP whitelist in MongoDB Atlas." };
+            }
+            return { success: false, error: "Could not save message to database." };
         }
     }
 
-    // Fallback if Mongo fails or is disabled
-    const db = await getJsonDb();
-    if (!db.inquiries) db.inquiries = [];
-    db.inquiries.push({ ...data, id: Date.now(), status: 'new', createdAt: new Date().toISOString() });
-    await saveJsonDb(db);
+    // Fallback if Mongo disabled
+    if (!IS_VERCEL) {
+        const db = await getJsonDb();
+        if (!db.inquiries) db.inquiries = [];
+        db.inquiries.push({ ...data, id: Date.now(), status: 'new', createdAt: new Date().toISOString() });
+        await saveJsonDb(db);
+        revalidatePath("/admin");
+        return { success: true };
+    }
 
-    revalidatePath("/admin");
-    return { success: true };
+    return { success: false, error: "Database not configured on server. Please add MONGODB_URI to Vercel." };
 }
 
 export async function getInquiries() {
@@ -406,9 +422,14 @@ export async function getInquiries() {
         try {
             await dbConnect();
             const inquiries = await Inquiry.find({}).sort({ createdAt: -1 }).lean();
-            return inquiries.map((i: any) => ({ ...i, _id: (i as any)._id.toString(), createdAt: (i as any).createdAt?.toISOString() }));
+            return inquiries.map((i: any) => ({
+                ...i,
+                _id: (i as any)._id.toString(),
+                createdAt: (i as any).createdAt?.toISOString()
+            }));
         } catch (error) {
-            console.error("MongoDB error (getInquiries), falling back to JSON:", error);
+            console.error("MongoDB error (getInquiries):", error);
+            return [];
         }
     }
 
@@ -425,12 +446,15 @@ export async function deleteInquiry(id: string) {
             return { success: true };
         } catch (error) {
             console.error("MongoDB error (deleteInquiry):", error);
+            return { success: false, error: "Database error." };
         }
     }
 
-    const db = await getJsonDb();
-    db.inquiries = db.inquiries.filter((i: any) => (i._id || i.id).toString() !== id.toString());
-    await saveJsonDb(db);
-    revalidatePath("/admin");
+    if (!IS_VERCEL) {
+        const db = await getJsonDb();
+        db.inquiries = db.inquiries.filter((i: any) => (i._id || i.id).toString() !== id.toString());
+        await saveJsonDb(db);
+        revalidatePath("/admin");
+    }
     return { success: true };
 }

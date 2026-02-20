@@ -29,6 +29,8 @@ export function ContactForm() {
             if (result.success) {
                 setSubmitted(true);
                 setFormData({ name: "", phone: "", email: "", message: "" });
+            } else {
+                alert(result.error || "Something went wrong. Please try again.");
             }
         } catch (error) {
             console.error("Submission error:", error);
