@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
-
-interface ContactFormProps {
-    initialSubmitted: boolean;
-}
+import { submitInquiry } from "@/app/actions";
 
 export function ContactForm() {
     const [formData, setFormData] = useState({
@@ -15,13 +12,30 @@ export function ContactForm() {
         message: ""
     });
     const [submitted, setSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Simulate form submission
-        console.log("Form Submitted:", formData);
-        setSubmitted(true);
-        // In a real app, send to API route
+        setIsSubmitting(true);
+
+        try {
+            const data = new FormData();
+            data.append("name", formData.name);
+            data.append("phone", formData.phone);
+            data.append("email", formData.email);
+            data.append("message", formData.message);
+
+            const result = await submitInquiry(data);
+            if (result.success) {
+                setSubmitted(true);
+                setFormData({ name: "", phone: "", email: "", message: "" });
+            }
+        } catch (error) {
+            console.error("Submission error:", error);
+            alert("Something went wrong. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -105,8 +119,13 @@ export function ContactForm() {
                 ></textarea>
             </div>
 
-            <Button type="submit" size="lg" className="w-full bg-[var(--primary)] hover:bg-slate-800 text-white font-bold py-4">
-                Send Message
+            <Button
+                type="submit"
+                size="lg"
+                className="w-full bg-[var(--primary)] hover:bg-slate-800 text-white font-bold py-4"
+                disabled={isSubmitting}
+            >
+                {isSubmitting ? "Sending..." : "Send Message"}
             </Button>
         </form>
     );

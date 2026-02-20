@@ -6,10 +6,11 @@ import { Plus, Trash2, Edit2, Save, X, Users, MessageSquare } from "lucide-react
 import {
     addProperty, deleteProperty, updateProperty, getProperties,
     addTeamMember, updateTeamMember, deleteTeamMember, getTeam,
-    getSocials, updateSocials
+    getSocials, updateSocials,
+    getInquiries, deleteInquiry
 } from "@/app/actions";
 import { formatGoogleDriveUrl } from "@/lib/utils";
-import { Property, TeamMember, Socials } from "@/types";
+import { Property, TeamMember, Socials, Inquiry } from "@/types";
 
 export default function Admin() {
     // Auth State
@@ -20,9 +21,10 @@ export default function Admin() {
     const [properties, setProperties] = useState<Property[]>([]);
     const [team, setTeam] = useState<TeamMember[]>([]);
     const [socials, setSocials] = useState<Socials>({});
+    const [inquiries, setInquiries] = useState<Inquiry[]>([]);
 
     // UI State
-    const [activeTab, setActiveTab] = useState<"properties" | "team" | "socials">("properties");
+    const [activeTab, setActiveTab] = useState<"properties" | "team" | "socials" | "leads">("properties");
     const [isEditing, setIsEditing] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
     const [currentEditItem, setCurrentEditItem] = useState<any>(null);
@@ -38,6 +40,14 @@ export default function Admin() {
         setProperties(await getProperties() as Property[]);
         setTeam(await getTeam() as TeamMember[]);
         setSocials(await getSocials() as Socials);
+        setInquiries(await getInquiries() as Inquiry[]);
+    };
+
+    const handleDeleteInquiry = async (id: string) => {
+        if (confirm("Delete this lead?")) {
+            await deleteInquiry(id);
+            refreshData();
+        }
     };
 
     const handleLogin = (e: React.FormEvent) => {
@@ -152,12 +162,18 @@ export default function Admin() {
                         >
                             Team
                         </Button>
-                        <Button
-                            variant={activeTab === "socials" ? "primary" : "outline"}
+                        <button
                             onClick={() => { setActiveTab("socials"); setIsAdding(false); setIsEditing(false); }}
+                            className={`px-4 py-2 font-medium rounded-lg transition-colors ${activeTab === "socials" ? "bg-[var(--secondary)] text-[var(--primary)]" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}
                         >
-                            Socials
-                        </Button>
+                            Settings
+                        </button>
+                        <button
+                            onClick={() => setActiveTab("leads")}
+                            className={`px-4 py-2 font-medium rounded-lg flex items-center transition-colors ${activeTab === "leads" ? "bg-[var(--secondary)] text-[var(--primary)]" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}
+                        >
+                            <MessageSquare className="mr-2 h-4 w-4" /> Client Leads
+                        </button>
                     </div>
                 </div>
 
@@ -389,6 +405,65 @@ export default function Admin() {
                                 </div>
                                 <Button type="submit" className="w-full">Save Changes</Button>
                             </form>
+                        </div>
+                    )}
+                    {activeTab === "leads" && (
+                        <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-200 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                                <h2 className="text-xl font-bold text-[var(--primary)] flex items-center">
+                                    <MessageSquare className="mr-2 h-5 w-5 text-[var(--secondary)]" />
+                                    Recent Client Leads
+                                </h2>
+                                <span className="text-sm text-[var(--muted)]">{inquiries.length} Messages</span>
+                            </div>
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="bg-slate-50 text-left border-b border-slate-200">
+                                            <th className="p-4 font-bold text-sm text-[var(--primary)]">Date</th>
+                                            <th className="p-4 font-bold text-sm text-[var(--primary)]">Client Details</th>
+                                            <th className="p-4 font-bold text-sm text-[var(--primary)]">Message</th>
+                                            <th className="p-4 font-bold text-sm text-[var(--primary)]">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-100">
+                                        {inquiries.length === 0 ? (
+                                            <tr>
+                                                <td colSpan={4} className="p-12 text-center text-slate-400 italic">No inquiries received yet.</td>
+                                            </tr>
+                                        ) : (
+                                            inquiries.map((lead) => (
+                                                <tr key={lead._id || (lead as any).id} className="hover:bg-slate-50 transition-colors">
+                                                    <td className="p-4 text-sm text-slate-600 align-top whitespace-nowrap">
+                                                        {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString() : 'Recent'}
+                                                    </td>
+                                                    <td className="p-4 align-top">
+                                                        <div className="font-bold text-[var(--primary)]">{lead.name}</div>
+                                                        <div className="text-xs text-blue-600 hover:underline">
+                                                            <a href={`tel:${lead.phone}`}>{lead.phone}</a>
+                                                        </div>
+                                                        <div className="text-xs text-slate-500">{lead.email}</div>
+                                                    </td>
+                                                    <td className="p-4 text-sm text-slate-700 align-top max-w-md">
+                                                        <div className="bg-slate-100 p-3 rounded-lg border border-slate-200 whitespace-pre-line">
+                                                            {lead.message}
+                                                        </div>
+                                                    </td>
+                                                    <td className="p-4 align-top">
+                                                        <button
+                                                            onClick={() => handleDeleteInquiry((lead._id || (lead as any).id).toString())}
+                                                            className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-full transition-all"
+                                                            title="Delete lead"
+                                                        >
+                                                            <Trash2 size={18} />
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     )}
                 </div>

@@ -40,3 +40,13 @@ export interface Socials {
     whyUsImage?: string;
     aboutImage?: string;
 }
+
+export interface Inquiry {
+    _id?: string;
+    name: string;
+    phone: string;
+    email?: string;
+    message: string;
+    status: string;
+    createdAt?: string;
+}

@@ -8,6 +8,7 @@ import dbConnect from "@/lib/mongodb";
 import Property from "@/models/Property";
 import TeamMember from "@/models/TeamMember";
 import Socials from "@/models/Socials";
+import Inquiry from "@/models/Inquiry";
 
 const textDbPath = path.join(process.cwd(), "src/lib/db.json");
 
@@ -312,5 +313,53 @@ export async function updateSocials(formData: FormData) {
     revalidatePath("/team");
     revalidatePath("/admin");
     revalidatePath("/", "layout");
+    return { success: true };
+}
+
+// --- Inquiry Actions ---
+
+export async function submitInquiry(formData: FormData) {
+    const data = {
+        name: formData.get("name"),
+        phone: formData.get("phone"),
+        email: formData.get("email"),
+        message: formData.get("message"),
+    };
+
+    if (USE_MONGO) {
+        await dbConnect();
+        await Inquiry.create(data);
+    } else {
+        const db = await getJsonDb();
+        if (!db.inquiries) db.inquiries = [];
+        db.inquiries.push({ ...data, id: Date.now(), status: 'new', createdAt: new Date().toISOString() });
+        await saveJsonDb(db);
+    }
+
+    revalidatePath("/admin");
+    return { success: true };
+}
+
+export async function getInquiries() {
+    if (USE_MONGO) {
+        await dbConnect();
+        const inquiries = await Inquiry.find({}).sort({ createdAt: -1 }).lean();
+        return inquiries.map((i: any) => ({ ...i, _id: (i as any)._id.toString(), createdAt: (i as any).createdAt?.toISOString() }));
+    }
+
+    const db = await getJsonDb();
+    return db.inquiries || [];
+}
+
+export async function deleteInquiry(id: string) {
+    if (USE_MONGO) {
+        await dbConnect();
+        await Inquiry.findByIdAndDelete(id);
+    } else {
+        const db = await getJsonDb();
+        db.inquiries = db.inquiries.filter((i: any) => (i._id || i.id).toString() !== id.toString());
+        await saveJsonDb(db);
+    }
+    revalidatePath("/admin");
     return { success: true };
 }
