@@ -5,13 +5,7 @@ import { MapPin, Bed, Bath, Maximize2, ArrowLeft, Phone, Share2 } from "lucide-r
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Property } from "@/types";
-
-export async function generateStaticParams() {
-    const properties = await getProperties();
-    return properties.map((property: Property) => ({
-        id: property.id.toString(),
-    }));
-}
+export const dynamic = "force-dynamic";
 
 import { formatGoogleDriveUrl } from "@/lib/utils";
 import { PropertyImage } from "@/components/PropertyImage";
