@@ -337,15 +337,19 @@ export default function Admin() {
                                     <h3 className="font-semibold mb-2">Contact Info</h3>
                                     <div className="space-y-4">
                                         <div>
-                                            <h3 className="font-semibold mb-2 mt-4 text-[var(--secondary)]">Home Page Images</h3>
-                                            <div className="grid grid-cols-1 gap-4">
+                                            <h3 className="font-semibold mb-2 mt-4 text-[var(--secondary)]">Global Page Images</h3>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 <div>
-                                                    <label className="block text-sm font-medium mb-1">Hero Background Image URL</label>
+                                                    <label className="block text-sm font-medium mb-1">Hero Background URL</label>
                                                     <input name="heroImage" defaultValue={socials.heroImage} className="w-full p-2 border rounded" placeholder="https://images.unsplash.com/..." />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm font-medium mb-1">"Why Choose Us" Image URL</label>
+                                                    <label className="block text-sm font-medium mb-1">"Why Us" Image URL</label>
                                                     <input name="whyUsImage" defaultValue={socials.whyUsImage} className="w-full p-2 border rounded" placeholder="https://images.unsplash.com/..." />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium mb-1">About Page Image URL</label>
+                                                    <input name="aboutImage" defaultValue={socials.aboutImage} className="w-full p-2 border rounded" placeholder="https://images.unsplash.com/..." />
                                                 </div>
                                             </div>
                                         </div>

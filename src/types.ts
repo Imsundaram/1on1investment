@@ -38,4 +38,5 @@ export interface Socials {
     teamDescription?: string;
     heroImage?: string;
     whyUsImage?: string;
+    aboutImage?: string;
 }

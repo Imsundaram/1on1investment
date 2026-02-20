@@ -3,12 +3,15 @@ import { Button } from "@/components/ui/Button";
 import { CheckCircle2 } from "lucide-react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: "About Us | 1 ON 1 INVESTMENT",
-    description: "Learn about 1 ON 1 INVESTMENT - Your trusted partner for buying, selling, and renting properties in Greater Noida & Noida.",
-};
+import { getSocials } from "@/app/actions";
+import { formatGoogleDriveUrl } from "@/lib/utils";
 
-export default function About() {
+export const dynamic = "force-dynamic";
+
+export default async function About() {
+    const socials = await getSocials();
+    const aboutImg = socials.aboutImage ? formatGoogleDriveUrl(socials.aboutImage) : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80";
+
     return (
         <div className="bg-slate-50 min-h-screen">
             {/* Header */}
@@ -33,13 +36,13 @@ export default function About() {
                             <Button size="lg">Get in Touch</Button>
                         </Link>
                     </div>
-                    <div className="relative h-96 w-full rounded-2xl overflow-hidden shadow-2xl">
-                        <div
-                            className="absolute inset-0 bg-cover bg-center"
-                            style={{
-                                backgroundImage: "url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')"
-                            }}
-                        ></div>
+                    <div className="relative h-96 w-full rounded-2xl overflow-hidden shadow-2xl bg-slate-200">
+                        <img
+                            src={aboutImg}
+                            alt="About Us"
+                            className="w-full h-full object-cover"
+                            referrerPolicy="no-referrer"
+                        />
                     </div>
                 </div>
 

@@ -287,7 +287,7 @@ export async function updateSocials(formData: FormData) {
         "email", "phone", "address",
         "googleMapUrl", "officeImage", "officeHours",
         "teamGroupPhoto", "teamDescription",
-        "heroImage", "whyUsImage"
+        "heroImage", "whyUsImage", "aboutImage"
     ];
 
     const updates: any = {};

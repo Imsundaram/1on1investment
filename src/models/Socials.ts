@@ -16,6 +16,7 @@ const SocialsSchema = new Schema({
     teamDescription: { type: String, required: false },
     heroImage: { type: String, required: false },
     whyUsImage: { type: String, required: false },
+    aboutImage: { type: String, required: false },
 }, { timestamps: true });
 
 // We only need one document for socials, so let's enforce a singleton pattern if we can,
