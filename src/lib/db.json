@@ -1,0 +1,114 @@
+{
+  "properties": [
+    {
+      "id": 1,
+      "title": "Godrej Arden ",
+      "price": "₹1.65 cr*",
+      "location": "Sigma-3, Greater Noida",
+      "type": "Residential",
+      "beds": 0,
+      "baths": 0,
+      "area": "2609 sqft",
+      "image": "https://drive.google.com/file/d/1AK8zXrz8pcTfgTSUwHrZlinkh34qANOY/view?usp=sharing",
+      "category": "Buy",
+      "featured": true,
+      "description": "Experience luxury living with this stunning residential villa located in the heart of Greater Noida. This property offers modern amenities, spacious interiors, and excellent connectivity to major landmarks. Perfect for families looking for a peaceful yet connected lifestyle."
+    },
+    {
+      "id": 2,
+      "title": "Divyansh green Heights",
+      "price": "Price Revising Soon",
+      "location": "Greater Noida",
+      "type": "Residential",
+      "beds": 0,
+      "baths": 0,
+      "area": "1850 sqft",
+      "image": "https://drive.google.com/file/d/1bJpEVA0lQLjdnQqyDEk9Vgkr0wZScfcv/view?usp=sharing",
+      "category": "Buy",
+      "featured": true,
+      "description": "A beautiful modern apartment located just minutes away from the metro station. Features high-end finishes, community gym, and swimming pool access."
+    },
+    {
+      "id": 3,
+      "title": "Casa Grande 2",
+      "price": "contact for price",
+      "location": "Chi-v , Greater Noida",
+      "type": "Residential",
+      "beds": 0,
+      "baths": 0,
+      "area": "1325 sqft",
+      "image": "https://drive.google.com/file/d/1ZCTcqExk_8KYEei27wYb58sjQCk6VJaW/view?usp=sharing",
+      "category": "Buy",
+      "featured": true,
+      "description": "Premium office space, Ready to move offering high visibility and excellent connectivity. Ideal for IT companies or corporate offices."
+    },
+    {
+      "id": 4,
+      "title": "New Building For sell ",
+      "price": "₹75 lacs",
+      "location": "Surajpur ,Greater Noida",
+      "type": "Rental",
+      "beds": 4,
+      "baths": 4,
+      "area": "490 sqft",
+      "image": "https://drive.google.com/file/d/1jRexTxRKz4Mu37y0xzCRxgqE2Mek8MMq/view?usp=sharing",
+      "category": "Buy",
+      "featured": true,
+      "description": "Fully furnished 4flloor 1BHK flat available , currently income from this building is 48000. Includes modular kitchen, wardrobes, and air conditioning. Ready to move in."
+    }
+  ],
+  "team": [
+    {
+      "id": 1,
+      "name": "Kavita Choudhary",
+      "role": "Founder & Director",
+      "bio": "Experienced real estate consultant specializing in Greater Noida & Noida properties with over 15 years of experience.",
+      "image": "https://drive.google.com/file/d/1HjNZUp36wgBYeaFjWV274mXBcco3G4Ic/view?usp=sharing",
+      "phone": "+919953493074",
+      "email": "1on1investment1@gmail.com"
+    },
+    {
+      "id": 2,
+      "name": "Sachin Rana",
+      "role": "Sales Manager",
+      "bio": "Expert in residential and rental properties with strong negotiation skills to get you the best deal.",
+      "image": "https://drive.google.com/file/d/1NoP2gryJBOJDnfleUWpPQqhn10Gh3P18/view?usp=sharing",
+      "phone": "+91 9911255806",
+      "email": "1on1investment1@gmail.com"
+    },
+    {
+      "id": 3,
+      "name": "Sanjay Kumar yadav",
+      "role": "Sales head",
+      "bio": "MBA From Sharda University Greater Noida ",
+      "image": "https://drive.google.com/file/d/1U3NWYF9PRx2rNns5fXYU8_PU6xnYpKt2/view?usp=sharing",
+      "phone": "+919266363411",
+      "email": "1on1investment1@gmail.com"
+    },
+    {
+      "id": 1771527825501,
+      "name": "Laxmi Mandal ",
+      "role": "Sales",
+      "bio": "MBA From Galgotia University Greater Noida",
+      "phone": "+919060625069",
+      "email": "1on1investment1@gmail.com",
+      "image": "https://drive.google.com/file/d/1QsAOC4ravN7jxru3wyn_gosJDTXOWtRq/view?usp=sharing"
+    }
+  ],
+  "socials": {
+    "facebook": "https://www.facebook.com/share/16yAMoTKq8/",
+    "twitter": "https://www.twitter.com",
+    "instagram": "https://www.instagram.com/1on1investment.official/",
+    "linkedin": "https://linkedin.com",
+    "email": "1on1investment1@gmail.com",
+    "phone": "+919953493074",
+    "address": "Shop No. 09, First Floor, Plot-D2, Krishna Apra Royal Plaza, Alpha 1, Commercial Belt, Greater Noida, Gautam Buddha Nagar, UP 201308",
+    "googleMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112173.3828779634!2d77.26252906873528!3d28.527252738749595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5a43173357b%3A0x10524360e8612f0!2sNoida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1709123456789!5m2!1sen!2sin",
+    "officeImage": "",
+    "officeHours": "Monday - Sunday: 10:00 AM - 6:00 PM",
+    "teamGroupPhoto": "https://drive.google.com/file/d/1nAV9PB2DkJXjt8G44iuJKOheG8kWsW-h/view?usp=sharing",
+    "teamDescription": "The dedicated professionals behind 1 ON 1 INVESTMENT",
+    "heroImage": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop",
+    "whyUsImage": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+  }
+}
