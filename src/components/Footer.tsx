@@ -60,7 +60,7 @@ export async function Footer() {
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start space-x-3">
                                 <MapPin className="mt-1 h-5 w-5 text-[var(--secondary)] flex-shrink-0" />
-                                <span>{socials.address || "Sadullapur, Greater Noida, Uttar Pradesh 203207"}</span>
+                                <span>{socials.address || "Roja Jalapur maripat sector 16B Noida extension"}</span>
                             </li>
                             <li className="flex items-center space-x-3">
                                 <Phone className="h-5 w-5 text-[var(--secondary)] flex-shrink-0" />

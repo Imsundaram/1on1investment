@@ -10,7 +10,7 @@ export default async function Contact() {
     const socials: Socials = await getSocials();
 
     // Default map if not set
-    const mapUrl = socials.googleMapUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14014.286395561085!2d77.464673!3d28.582604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cef87e59b3927%3A0xb3bd3d4529f79b63!2sSadullapur%2C%20Uttar%20Pradesh%20203207!5e0!3m2!1sen!2sin!4v1709123456789!5m2!1sen!2sin";
+    const mapUrl = socials.googleMapUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14011.666992646271!2d77.458925!3d28.601552!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cef6a26090e8b%3A0x6b10787e9154a434!2sRoja%20Jalalpur%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1709123456789!5m2!1sen!2sin";
 
     return (
         <div className="bg-slate-50 min-h-screen pt-24 pb-20">
@@ -44,7 +44,7 @@ export default async function Contact() {
                                                 />
                                             </div>
                                         )}
-                                        <p className="text-[var(--muted)] whitespace-pre-line">{socials.address || "Sadullapur, Greater Noida, Uttar Pradesh 203207"}</p>
+                                        <p className="text-[var(--muted)] whitespace-pre-line">{socials.address || "Roja Jalapur maripat sector 16B Noida extension"}</p>
                                     </div>
                                 </div>
 
