@@ -12,7 +12,7 @@ interface SpecialProjectSlideProps {
 }
 
 export function SpecialProjectSlide({
-    mainImage = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop",
+    mainImage = "/images/happy-life-hero.jpeg",
     brochurePdf = "/downloads/BROCHURE5.pdf",
     layout90GajPdf = "/downloads/Happy life villa.pdf",
     layout100GajPdf = "/downloads/Happy life villa 100 gaj.pdf"
