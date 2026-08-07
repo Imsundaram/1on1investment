@@ -48,6 +48,9 @@ export const metadata: Metadata = {
     title: "1 ON 1 INVESTMENT - Real Estate Greater Noida",
     description: "Explore luxury duplex villas, residential flats & commercial spaces in Greater Noida and Noida Extension.",
   },
+  verification: {
+    google: "sM8pVPg480YuvXOyq5eLN3RCAsFIgN2dK9jVeHf_tXo",
+  },
   robots: {
     index: true,
     follow: true,
@@ -108,6 +111,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="google-site-verification" content="sM8pVPg480YuvXOyq5eLN3RCAsFIgN2dK9jVeHf_tXo" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
