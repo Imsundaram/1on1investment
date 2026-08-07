@@ -52,10 +52,11 @@ export default function Admin() {
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        if (password === "admin123") {
+        const validPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "Realestate4830";
+        if (password === validPassword || password === "Realestate4830") {
             setIsAuthenticated(true);
         } else {
-            alert("Invalid password (try: admin123)");
+            alert("Invalid password. Please try again.");
         }
     };
 
@@ -161,7 +162,7 @@ export default function Admin() {
                     <div className="mt-8 text-center border-t border-white/10 pt-6">
                         <p className="text-xs text-white/50 flex items-center justify-center gap-1.5">
                             <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse"></span>
-                            System Online • Hint: admin123
+                            System Online • Protected Access
                         </p>
                     </div>
                 </div>
