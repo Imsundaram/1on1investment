@@ -1,0 +1,138 @@
+
+export const properties = [
+    {
+        id: 1,
+        title: "Luxury Villa in Jaypee Greens",
+        price: "₹3.5 Cr",
+        location: "Greater Noida",
+        type: "Residential",
+        beds: 4,
+        baths: 5,
+        area: "3500 sqft",
+        image: "/images/prop1.jpg",
+        category: "Buy",
+        featured: true,
+    },
+    {
+        id: 2,
+        title: "Modern Apartment near Metro",
+        price: "₹85 Lakh",
+        location: "Noida Sector 75",
+        type: "Residential",
+        beds: 3,
+        baths: 3,
+        area: "1850 sqft",
+        image: "/images/prop2.jpg",
+        category: "Buy",
+        featured: true,
+    },
+    {
+        id: 3,
+        title: "Commercial Office Space",
+        price: "₹1.2 Cr",
+        location: "Noida Expressway",
+        type: "Commercial",
+        area: "1200 sqft",
+        image: "/images/prop3.jpg",
+        category: "Buy",
+        featured: false,
+    },
+    {
+        id: 4,
+        title: "Furnished Flat for Rent",
+        price: "₹25,000 / month",
+        location: "Greater Noida West",
+        type: "Rental",
+        beds: 2,
+        baths: 2,
+        area: "1100 sqft",
+        image: "/images/prop4.jpg",
+        category: "Rent",
+        featured: true,
+    },
+];
+
+export const services = [
+    {
+        id: 1,
+        title: "Property Sale",
+        description: "We help you sell your property at the best market price with complete transparency.",
+        icon: "HomeIcon",
+        link: "/services#sale",
+    },
+    {
+        id: 2,
+        title: "Property Purchase",
+        description: "Find your dream home or investment property in prime locations of Noida & Greater Noida.",
+        icon: "KeyIcon",
+        link: "/services#purchase",
+    },
+    {
+        id: 3,
+        title: "Rental Services",
+        description: "Wide range of rental properties available for residential and commercial needs.",
+        icon: "BuildingOfficeIcon",
+        link: "/services#rent",
+    },
+    {
+        id: 4,
+        title: "Interior & Décor",
+        description: "Transform your space with our premium interior painting and home décor services.",
+        icon: "PaintBrushIcon",
+        link: "/services#interior",
+    },
+];
+
+export const team = [
+    {
+        id: 1,
+        name: "Amit Sharma",
+        role: "Founder & Director",
+        bio: "Experienced real estate consultant specializing in Greater Noida & Noida properties with over 15 years of experience.",
+        image: "/images/team1.jpg",
+        phone: "+91 98765 43210",
+        email: "amit@1on1investment.com",
+    },
+    {
+        id: 2,
+        name: "Priya Singh",
+        role: "Sales Manager",
+        bio: "Expert in residential and rental properties with strong negotiation skills to get you the best deal.",
+        image: "/images/team2.jpg",
+        phone: "+91 98765 43211",
+        email: "priya@1on1investment.com",
+    },
+    {
+        id: 3,
+        name: "Rahul Verma",
+        role: "Interior Consultant",
+        bio: "Specialist in home painting, décor planning and modern interior solutions for your dream home.",
+        image: "/images/team3.jpg",
+        phone: "+91 98765 43212",
+        email: "rahul@1on1investment.com",
+    },
+];
+
+export const testimonials = [
+    {
+        id: 1,
+        name: "Rajesh Kumar",
+        review: "1 ON 1 INVESTMENT helped me find the perfect apartment in Noida. Very professional and transparent service.",
+        rating: 5,
+        location: "Noida",
+    },
+    {
+        id: 2,
+        name: "Sneha Gupta",
+        review: "Their interior team transformed our old house into a modern home. Highly recommended for renovation work!",
+        rating: 5,
+        location: "Greater Noida",
+    },
+    {
+        id: 3,
+        name: "Vikram Singh",
+        review: "Best property rates in the market. I sold my plot through them and got a great deal.",
+        rating: 5,
+        location: "New Delhi",
+    },
+];

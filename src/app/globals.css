@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  /* Dark Blue as default text for contrast */
+
+  /* Brand Colors */
+  --primary: #0f172a;
+  /* Dark Blue */
+  --secondary: #eab308;
+  /* Gold/Orange */
+  --accent: #f8fafc;
+  /* Very Light Blue/Gray */
+
+  --muted: #64748b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  /* Luxury look */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    /* Keep it light by default for clean look, or user might want dark mode? User asked for "Dark Blue, White" colors, usually implies light theme with dark accents or vice versa. Let's stick to light theme as base for "Clean, modern" real estate. */
+    --foreground: #0f172a;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom Utilities */
+/* Custom Utilities - glass-nav removed */
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, var(--primary), var(--secondary));
+}
+
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
