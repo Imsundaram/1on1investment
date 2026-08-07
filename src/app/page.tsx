@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Hero } from "@/components/Hero";
+import { SpecialProjectSlide } from "@/components/SpecialProjectSlide";
 import { PropertyCard } from "@/components/PropertyCard";
 import { ServiceCard } from "@/components/ServiceCard";
 import { TeamCard } from "@/components/TeamCard";
@@ -23,6 +24,7 @@ export default async function Home() {
   return (
     <>
       <Hero image={socials.heroImage} />
+      <SpecialProjectSlide />
 
       {/* Featured Properties */}
       <section className="py-20 bg-slate-50">
