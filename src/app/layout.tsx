@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { getSocials } from "@/app/actions";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,11 +16,50 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "1 ON 1 INVESTMENT - A Smart Move",
-  description: "Find Your Dream Property in Greater Noida & Noida. Buy, Sell, Rent & Transform Your Space.",
+  metadataBase: new URL("https://1on1investment.com"),
+  title: {
+    default: "1 ON 1 INVESTMENT - Duplex Villas & Real Estate in Greater Noida & Noida",
+    template: "%s | 1 ON 1 INVESTMENT"
+  },
+  description: "Find your dream property in Greater Noida, Noida & Noida Extension. Duplex Villas, Commercial Spaces, Buy, Sell & Rent. Happy Life by Rudra Infrastructure.",
+  keywords: [
+    "Real Estate Greater Noida",
+    "Duplex Villas Noida Extension",
+    "Happy Life Rudra Infrastructure",
+    "Buy Sell Rent Property Noida",
+    "1 ON 1 INVESTMENT",
+    "Sadullapur Greater Noida",
+    "Sector 16B Noida Extension",
+    "Freesias Infratech",
+    "Real estate agency Greater Noida"
+  ],
+  authors: [{ name: "1 ON 1 INVESTMENT" }],
+  creator: "1 ON 1 INVESTMENT",
+  openGraph: {
+    title: "1 ON 1 INVESTMENT - Premium Real Estate in Greater Noida & Noida",
+    description: "Explore luxury duplex villas, residential flats & commercial spaces in Greater Noida and Noida Extension.",
+    url: "https://1on1investment.com",
+    siteName: "1 ON 1 INVESTMENT",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "1 ON 1 INVESTMENT - Real Estate Greater Noida",
+    description: "Explore luxury duplex villas, residential flats & commercial spaces in Greater Noida and Noida Extension.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
-
-import { getSocials } from "@/app/actions";
 
 export default async function RootLayout({
   children,
@@ -28,8 +68,51 @@ export default async function RootLayout({
 }>) {
   const socials = await getSocials();
 
+  // Schema.org RealEstateAgent / LocalBusiness JSON-LD
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "1 ON 1 INVESTMENT",
+    "image": "https://1on1investment.com/icon.png",
+    "@id": "https://1on1investment.com/#organization",
+    "url": "https://1on1investment.com",
+    "telephone": "+919953493074",
+    "email": "1on1investment1@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Roja Jalapur maripat sector 16B Noida extension",
+      "addressLocality": "Greater Noida",
+      "addressRegion": "Uttar Pradesh",
+      "postalCode": "203207",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 28.601552,
+      "longitude": 77.458925
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+      ],
+      "opens": "10:00",
+      "closes": "18:00"
+    },
+    "sameAs": [
+      "https://www.facebook.com/share/16yAMoTKq8/",
+      "https://www.instagram.com/1on1investment.official/"
+    ]
+  };
+
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -58,30 +141,10 @@ export default async function RootLayout({
             strokeLinejoin="round"
             className="lucide lucide-message-circle"
           >
-            {/* Simple WhatsApp-like icon using SVG paths effectively */}
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="none" />
-          </svg>
-        </a>
-
-        {/* Floating Call Button (Mobile Only) */}
-        <a
-          href="tel:+919953493074"
-          className="fixed bottom-24 right-6 z-50 bg-[var(--primary)] hover:bg-[#0f172a] text-white p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center md:hidden"
-          title="Call Now"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-phone"
-          >
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            <path
+              d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+              stroke="none"
+            />
           </svg>
         </a>
       </body>
