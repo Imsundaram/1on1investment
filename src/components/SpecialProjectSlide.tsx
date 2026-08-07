@@ -46,7 +46,7 @@ export function SpecialProjectSlide({
                     </h2>
                     
                     <p className="text-base sm:text-xl md:text-2xl font-medium text-amber-200/90 italic text-balance">
-                        by Rudra Infrastructure – &ldquo;Where Dreams Find a Home&rdquo;
+                        &ldquo;Where Dreams Find a Home&rdquo;
                     </p>
 
                     <div className="inline-block bg-slate-800/80 border border-slate-700/80 backdrop-blur-md px-4 sm:px-6 py-2 rounded-2xl text-slate-200 text-xs sm:text-sm md:text-base font-medium shadow-md max-w-full leading-relaxed">
@@ -215,7 +215,7 @@ export function SpecialProjectSlide({
                         <div className="flex justify-between items-center px-6 py-4 border-b border-slate-800 bg-slate-950">
                             <div>
                                 <h3 className="text-lg md:text-xl font-bold text-white">{modalTitle}</h3>
-                                <p className="text-xs text-amber-400">Happy Life by Rudra Infrastructure (Freesias Infratech Pvt. Ltd.)</p>
+                                <p className="text-xs text-amber-400">Happy Life Duplex Villas (Freesias Infratech Pvt. Ltd.)</p>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <a

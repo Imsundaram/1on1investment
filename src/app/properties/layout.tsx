@@ -11,7 +11,7 @@ export const metadata: Metadata = {
         "Commercial shops Noida Expressway",
         "Rental flats Sector 16B Noida Extension",
         "Buy sell property Noida",
-        "Happy Life Rudra Infrastructure villas"
+        "Happy Life duplex villas"
     ],
     openGraph: {
         title: "Properties for Sale & Rent - Duplex Villas, Flats & Plots in Greater Noida",

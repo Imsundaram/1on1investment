@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     "Duplex Villas Noida Extension",
     "90 Gaj Duplex Villa Greater Noida",
     "100 Gaj Luxury Villa Sector 16B",
-    "Happy Life Rudra Infrastructure",
+    "Happy Life Duplex Villas",
     "Freesias Infratech Pvt Ltd",
     // Flats & Apartments
     "1BHK 2BHK 3BHK Flats Greater Noida",
@@ -147,7 +147,7 @@ export default async function RootLayout({
             "itemOffered": {
               "@type": "Service",
               "name": "Independent Duplex Villas (90 Gaj & 100 Gaj)",
-              "description": "Happy Life by Rudra Infrastructure - Premium 3 BHK Duplex Villas in Sector 16B Noida Extension."
+              "description": "Happy Life Duplex Villas by Freesias Infratech Pvt. Ltd. - Premium 3 BHK Duplex Villas in Sector 16B Noida Extension."
             }
           },
           {
