@@ -35,30 +35,30 @@ export function SpecialProjectSlide({
             <div className="container mx-auto px-4 md:px-8 relative z-10">
                 
                 {/* Header Badge & Title */}
-                <div className="max-w-4xl mx-auto text-center space-y-4 mb-12">
-                    <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-400/20 via-yellow-500/20 to-amber-500/20 border border-amber-400/40 px-5 py-2 rounded-full text-amber-300 text-xs md:text-sm font-semibold tracking-wider uppercase backdrop-blur-md shadow-xl">
-                        <Sparkles className="h-4 w-4 text-amber-400 animate-pulse" />
-                        <span>Featured Project • ₹85 Lakh Starting</span>
+                <div className="max-w-4xl mx-auto text-center space-y-4 mb-10 md:mb-12 px-2">
+                    <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-400/20 via-yellow-500/20 to-amber-500/20 border border-amber-400/40 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-amber-300 text-xs md:text-sm font-semibold tracking-wider uppercase backdrop-blur-md shadow-xl max-w-full">
+                        <Sparkles className="h-4 w-4 text-amber-400 animate-pulse flex-shrink-0" />
+                        <span className="truncate">Featured Project • ₹85 Lakh Starting</span>
                     </div>
 
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                    <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight text-balance">
                         Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-200">Happy Life</span>
                     </h2>
                     
-                    <p className="text-xl md:text-2xl font-medium text-amber-200/90 italic">
+                    <p className="text-base sm:text-xl md:text-2xl font-medium text-amber-200/90 italic text-balance">
                         by Rudra Infrastructure – &ldquo;Where Dreams Find a Home&rdquo;
                     </p>
 
-                    <div className="inline-block bg-slate-800/80 border border-slate-700/80 backdrop-blur-md px-6 py-2.5 rounded-full text-slate-200 text-sm md:text-base font-medium shadow-md">
-                        <MapPin className="inline-block h-4 w-4 text-amber-400 mr-2" />
+                    <div className="inline-block bg-slate-800/80 border border-slate-700/80 backdrop-blur-md px-4 sm:px-6 py-2 rounded-2xl text-slate-200 text-xs sm:text-sm md:text-base font-medium shadow-md max-w-full leading-relaxed">
+                        <MapPin className="inline-block h-4 w-4 text-amber-400 mr-1.5 flex-shrink-0" />
                         Premium Semi-Furnished Duplex Villas | Sector 16/B, Sadullapur, Greater Noida
                     </div>
                 </div>
 
                 {/* Main Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
                     
-                    {/* Left Column: Visual Banner Card with Price Tag */}
+                    {/* Left Column: Visual Banner Card with Non-Overlapping Price Tag */}
                     <div className="lg:col-span-6">
                         <div className="relative group rounded-3xl overflow-hidden border-2 border-amber-400/40 shadow-2xl bg-slate-900">
                             
@@ -69,17 +69,18 @@ export function SpecialProjectSlide({
                                     alt="Happy Life by Rudra Infrastructure"
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-950/20" />
                                 
-                                {/* Top Badges */}
-                                <div className="absolute top-4 left-4 bg-slate-950/85 backdrop-blur-md border border-amber-400/40 text-amber-300 text-xs md:text-sm font-bold px-4 py-2 rounded-xl shadow-lg flex items-center space-x-2">
-                                    <Building2 className="h-4 w-4 text-amber-400" />
-                                    <span>Freesias Infratech Pvt. Ltd.</span>
-                                </div>
+                                {/* Top Badges Row (Non-overlapping Flex Container) */}
+                                <div className="absolute top-3 left-3 right-3 sm:top-4 sm:left-4 sm:right-4 flex items-center justify-between gap-2 z-10">
+                                    <div className="bg-slate-950/90 backdrop-blur-md border border-amber-400/40 text-amber-300 text-[11px] sm:text-xs md:text-sm font-bold px-2.5 sm:px-3 py-1.5 rounded-xl shadow-lg flex items-center space-x-1.5">
+                                        <Building2 className="h-3.5 w-3.5 text-amber-400 flex-shrink-0" />
+                                        <span className="truncate max-w-[140px] sm:max-w-none">Freesias Infratech</span>
+                                    </div>
 
-                                {/* Price Badge Tag */}
-                                <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 font-extrabold text-lg md:text-xl px-5 py-2 rounded-xl shadow-2xl transform rotate-1 border border-yellow-200">
-                                    Starting ₹85 Lakh
+                                    <div className="bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 font-extrabold text-xs sm:text-sm md:text-base px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl shadow-xl border border-yellow-200 flex-shrink-0 whitespace-nowrap">
+                                        Starting ₹85 Lakh
+                                    </div>
                                 </div>
 
                                 {/* Bottom Info Overlay */}
