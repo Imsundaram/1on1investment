@@ -18,26 +18,46 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://1on1investment.com"),
   title: {
-    default: "1 ON 1 INVESTMENT - Duplex Villas & Real Estate in Greater Noida & Noida",
-    template: "%s | 1 ON 1 INVESTMENT"
+    default: "1 ON 1 INVESTMENT - Real Estate, Duplex Villas, Flats, Plots & Builders in Greater Noida & Noida",
+    template: "%s | 1 ON 1 INVESTMENT Real Estate"
   },
-  description: "Find your dream property in Greater Noida, Noida & Noida Extension. Duplex Villas, Commercial Spaces, Buy, Sell & Rent. Happy Life by Rudra Infrastructure.",
+  description: "Top Real Estate Agency in Greater Noida & Noida. Buy, Sell & Rent Duplex Villas, 1/2/3 BHK Flats, Residential & Commercial Plots, Office Spaces & New Builder Projects.",
   keywords: [
+    // Real Estate Categories
     "Real Estate Greater Noida",
+    "Real Estate Agency Noida Extension",
+    "Top Property Consultants Greater Noida",
+    "Builders & Developers Greater Noida",
+    // Villas & Duplex
     "Duplex Villas Noida Extension",
+    "90 Gaj Duplex Villa Greater Noida",
+    "100 Gaj Luxury Villa Sector 16B",
     "Happy Life Rudra Infrastructure",
-    "Buy Sell Rent Property Noida",
+    "Freesias Infratech Pvt Ltd",
+    // Flats & Apartments
+    "1BHK 2BHK 3BHK Flats Greater Noida",
+    "Luxury Apartments Noida Expressway",
+    "Ready to Move Flats Noida Extension",
+    "Studio Apartments Greater Noida",
+    // Plots & Land
+    "Residential Plots Greater Noida",
+    "Commercial Plots Noida Extension",
+    "Freehold Plots Sadullapur Greater Noida",
+    "Authority Approved Plots Noida",
+    // Commercial & Rental
+    "Commercial Shops for Sale Greater Noida",
+    "Office Space for Rent Noida Expressway",
+    "Flats for Rent Greater Noida West",
+    // Company & Location
     "1 ON 1 INVESTMENT",
-    "Sadullapur Greater Noida",
-    "Sector 16B Noida Extension",
-    "Freesias Infratech",
-    "Real estate agency Greater Noida"
+    "Roja Jalapur Maripat Sector 16B Noida Extension",
+    "Sadullapur Greater Noida UP 203207"
   ],
   authors: [{ name: "1 ON 1 INVESTMENT" }],
   creator: "1 ON 1 INVESTMENT",
   openGraph: {
-    title: "1 ON 1 INVESTMENT - Premium Real Estate in Greater Noida & Noida",
-    description: "Explore luxury duplex villas, residential flats & commercial spaces in Greater Noida and Noida Extension.",
+    title: "1 ON 1 INVESTMENT - Buy, Sell & Rent Flats, Duplex Villas, Plots & Commercial Real Estate",
+    description: "Explore luxury 90 & 100 Gaj duplex villas, 1/2/3 BHK flats, residential plots & commercial properties in Greater Noida & Noida Extension.",
     url: "https://1on1investment.com",
     siteName: "1 ON 1 INVESTMENT",
     locale: "en_IN",
@@ -45,8 +65,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "1 ON 1 INVESTMENT - Real Estate Greater Noida",
-    description: "Explore luxury duplex villas, residential flats & commercial spaces in Greater Noida and Noida Extension.",
+    title: "1 ON 1 INVESTMENT - Real Estate & Property Consultants",
+    description: "Explore luxury duplex villas, flats, plots & commercial projects in Greater Noida & Noida.",
   },
   verification: {
     google: "sM8pVPg480YuvXOyq5eLN3RCAsFIgN2dK9jVeHf_tXo",
@@ -71,40 +91,99 @@ export default async function RootLayout({
 }>) {
   const socials = await getSocials();
 
-  // Schema.org RealEstateAgent / LocalBusiness JSON-LD
+  // Master Schema.org RealEstateAgent & Business Offerings JSON-LD
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    "name": "1 ON 1 INVESTMENT",
-    "image": "https://1on1investment.com/icon.png",
-    "@id": "https://1on1investment.com/#organization",
-    "url": "https://1on1investment.com",
-    "telephone": "+919953493074",
-    "email": "1on1investment1@gmail.com",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Roja Jalapur maripat sector 16B Noida extension",
-      "addressLocality": "Greater Noida",
-      "addressRegion": "Uttar Pradesh",
-      "postalCode": "203207",
-      "addressCountry": "IN"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 28.601552,
-      "longitude": 77.458925
-    },
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
-      ],
-      "opens": "10:00",
-      "closes": "18:00"
-    },
-    "sameAs": [
-      "https://www.facebook.com/share/16yAMoTKq8/",
-      "https://www.instagram.com/1on1investment.official/"
+    "@graph": [
+      {
+        "@type": "RealEstateAgent",
+        "@id": "https://1on1investment.com/#organization",
+        "name": "1 ON 1 INVESTMENT",
+        "url": "https://1on1investment.com",
+        "logo": "https://1on1investment.com/icon.png",
+        "image": "https://1on1investment.com/images/happy-life-hero.jpeg",
+        "telephone": "+919953493074",
+        "email": "1on1investment1@gmail.com",
+        "priceRange": "₹25 Lakhs - ₹5 Crores",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Roja Jalapur maripat sector 16B Noida extension",
+          "addressLocality": "Greater Noida",
+          "addressRegion": "Uttar Pradesh",
+          "postalCode": "203207",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 28.601552,
+          "longitude": 77.458925
+        },
+        "areaServed": [
+          "Greater Noida",
+          "Noida Extension",
+          "Sadullapur",
+          "Sector 16B Noida Extension",
+          "Noida Expressway",
+          "Greater Noida West",
+          "Yamuna Expressway"
+        ],
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "10:00",
+          "closes": "18:00"
+        },
+        "sameAs": [
+          "https://www.facebook.com/share/16yAMoTKq8/",
+          "https://www.instagram.com/1on1investment.official/"
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Real Estate Services & Properties Catalog",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Independent Duplex Villas (90 Gaj & 100 Gaj)",
+              "description": "Happy Life by Rudra Infrastructure - Premium 3 BHK Duplex Villas in Sector 16B Noida Extension."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Residential Flats & Apartments (1BHK, 2BHK, 3BHK)",
+              "description": "Ready to move and under-construction luxury apartments in Greater Noida & Noida."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Residential & Commercial Land / Plots",
+              "description": "Freehold and authority approved plots for investment and construction."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Commercial Office Spaces & Shops",
+              "description": "High ROI commercial shops, retail spaces, and corporate office units."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Rental & Property Management Services",
+              "description": "Residential and commercial property leasing, tenant management, and rent agreement assistance."
+            }
+          }
+        ]
+      }
     ]
   };
 
